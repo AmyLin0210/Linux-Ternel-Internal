@@ -1,6 +1,7 @@
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <stdbool.h>  
+#include <time.h>
 
 typedef struct __node {                   
     int value;
@@ -17,6 +18,10 @@ static inline void list_make_node_t(node_t **list, int value) {
         list=&((*list)->next);
 
     *list = (node_t*)malloc(sizeof(node_t));
+
+    if(!(*list))
+        return;
+
     (*list)->value = value;
     (*list)->next = NULL;
 }
@@ -93,8 +98,10 @@ int main(int argc, char **argv) {
     size_t count = 20;
 
     node_t *list = NULL;
+
+    srandom((unsigned int) time(NULL));
     while (count--)
-        list_make_node_t(&list, rand() % 1024);
+        list_make_node_t(&list, random() % 1024);
 
     list_display(list);
     quicksort(&list);
